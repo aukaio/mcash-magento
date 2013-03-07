@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<config>
+  <modules>
+    <Trollweb_Mcash>
+      <version>1.0.0</version>
+    </Trollweb_Mcash>
+  </modules>
+
+  <global>
+    <blocks>
+        <mcash>
+            <class>Trollweb_Mcash_Block</class>
+        </mcash>
+    </blocks>
+
+    <models>
+      <mcash>
+        <class>Trollweb_Mcash_Model</class>
+      </mcash>
+    </models>
+
+    <helpers>
+      <mcash>
+        <class>Trollweb_Mcash_Helper</class>
+      </mcash>
+    </helpers>
+  </global>
+
+  <default>
+    <payment>
+      <mcash>
+        <model>Trollweb_Mcash_Model_Payment_Mcash</model>
+        <active>0</active>
+        <test>1</test>
+        <title>mCash</title>
+        <merchant_id backend_model="adminhtml/system_config_backend_encrypted" />
+        <secret backend_model="adminhtml/system_config_backend_encrypted" />
+        <pos_id backend_model="adminhtml/system_config_backend_encrypted" />
+      </mcash>
+    </payment>
+  </default>
+
+</config>
