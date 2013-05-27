@@ -10,18 +10,22 @@ class Trollweb_Mcash_Block_Form extends Mage_Payment_Block_Form
 
     public function getQRImage()
     {
-       $api = Mage::getModel('mcash/api'); 
-       if (!$this->getSession()->getMcashShortLink()) {
-            $quote = $this->getSession()->getQuote();
-            if (!$quote) {
-                return false;
-            }
+        $api = Mage::getModel('mcash/api'); 
+        $quote = $this->getSession()->getQuote();
+        if (!$quote) {
+            return false;
+        }
+        $payment = $quote->getPayment();
+        if (!$payment) {
+            return false;
+        }
+        if (!$payment->getAdditionalInformation(Trollweb_Mcash_Model_Payment_Mcash::MCASH_SHORTLINK)) {
             if ($shortLink = $api->getShortLink($quote->getId())) {
-                $this->getSession()->setMcashShortLink($shortLink);   
+                $payment->setAdditionalInformation(Trollweb_Mcash_Model_Payment_Mcash::MCASH_SHORTLINK,$shortLink)->save();
             }
          
        }
-       return $api->getQrImage($this->getSession()->getMcashShortLink());
+       return $api->getQrImage($payment->getAdditionalInformation(Trollweb_Mcash_Model_Payment_Mcash::MCASH_SHORTLINK));
     }
 
     protected function getSession()

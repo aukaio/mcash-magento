@@ -1,8 +1,10 @@
 <fieldset class="form-list">
     <?php $_code=$this->getMethodCode() ?>
-    <img src="<?php echo $this->getQRImage(); ?>">
+    <?php $_qrCodeImage = $this->getQrImage(); ?>
     <ul id="payment_form_<?php echo $_code ?>" style="display:none">
         <li>
+            <img src="<?php echo $_qrCodeImage; ?>">
         </li>
+        <li>Scan the mCASH QR Code before you submit your order</li>
     </ul>
 </fieldset>

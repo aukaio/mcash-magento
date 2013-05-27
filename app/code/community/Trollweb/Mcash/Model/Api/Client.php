@@ -41,6 +41,12 @@ eQIDAQAB
         return $this;
     }
 
+
+    public function getQrImageUrl($shortlinkId,$args='')
+    {
+	return 'https://'.($this->_test ? self::API_HOST_TEST : self::API_HOST).'/shortlink/v'.self::API_VERSION.'/qr_image/'.$shortlinkId.'/'.$args;
+    }
+
     public function setSecret($secret)
     {
         $this->_secret = $secret;
@@ -124,11 +130,12 @@ eQIDAQAB
                 $errorMessage = $error['error'];
             }
             $this->_errorMessage = $errorMessage;
+	    Mage::log('[mCASH] '.$errorMessage,Zend_Log::ERR);
             return false;
         }
     }
 
-    protected function verifySignature($data,$signature)
+    public function verifySignature($data,$signature)
     {
         $rsa = new Zend_Crypt_Rsa(array('certificateString' => self::MCASH_PUB_CERT));
         return $rsa->verifySignature($data,$signature,Zend_Crypt_Rsa::BASE64);

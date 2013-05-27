@@ -34,7 +34,71 @@ class Trollweb_Mcash_Model_Payment_Mcash extends Mage_Payment_Model_Method_Abstr
      */
     protected $_canCancelInvoice        = false;
 
+    const MCASH_TOKEN       = 'mcash_token';
+    const MCASH_SHORTLINK   = 'mcash_shortlink';
 
 
+
+    public function validate()
+    {
+        parent::validate();
+        $payment = $this->getInfoInstance();
+
+        if (!$payment->getAdditionalInformation(self::MCASH_TOKEN)) {
+            Mage::throwException(Mage::helper('mcash')->__('You must scan the QR code before you can continue'));
+        }
+
+        return $this;
+    }
+	
+
+    public function capture(Varien_Object $payment, $amount)
+    {
+        $api = Mage::getModel('mcash/api');
+        $text = Mage::helper('mcash')->__('Order #%s',$payment->getOrder()->getIncrementId())."\n".$this->getProductLines($payment->getOrder());
+        
+        $isOk = false;
+
+        if ($this->getConfigPaymentAction() == Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE) {
+            if (!$api->sale($payment->getAdditionalInformation(self::MCASH_TOKEN),$amount,$payment->getOrder()->getId(),$text)) {
+                Mage::throwException(Mage::helper('mcash')->__('Communication with mCash failed. Please try again or choose another payment method'));
+            }
+
+            $giveuptime = time()+120;
+
+            while (time() < $giveuptime) {
+                $result = $api->saleOutcome($payment->getOrder()->getId());
+                Mage::log($result);
+                if ($result['status'] == "pending") {
+                    usleep(1000);
+                    continue;
+                }
+                if ($result['status'] == 'ok') {
+                    $isOk = true;
+                }
+                break;
+            }
+        }
+
+        if (!$isOk) {
+            Mage::throwException(Mage::helper('mcash')->__('Payment failed'));
+        }
+
+        $payment->setTransactionId($result['tid']);
+        
+
+        Mage::log($result);
+        
+    }
+
+    public function getProductLines($order) {
+        $text = "";
+        foreach ($order->getAllItems() as $product) {
+            if (!$product->getParentItemId()) {
+              $text .= (int)$product->getQtyOrdered().' x '.$product->getName()."\n";
+            }
+        }
+        return $text;
+    }
 
 }
