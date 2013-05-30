@@ -23,8 +23,8 @@ class Trollweb_Mcash_Model_Api extends Varien_Object
         $data = array(
             'name'      => $name,
             'type'      => 'webshop',
-            'secret'    => $this->getPostSecret(),
-                    );
+            'secret'    => $this->getPosSecret(),
+        );
 
         return $this->getClient()->setUrl('merchant/'.$this->getMerchantId().'/pos/'.$posId.'/')->Put($data);
     }
