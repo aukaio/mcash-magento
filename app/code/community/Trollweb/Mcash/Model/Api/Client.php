@@ -15,14 +15,15 @@ im4zWBGVXnQ7UPm1peMzeuaB7L246J+ZcfLpd3trSWg2mywB23rqELzTNKi0s7cb
 kS+2gk5B72q3qcaTO47rPgEVcUTB2A+jxcu6rOVFCbhQ8+JkLDPeHPDuIBQ5mAwN
 XLY+3ffovc31S5cMhquiKaYYwiuxeI23AWtNV2FoD00bm4q+5XCuBGgPJf3nkNYV
 eQIDAQAB
------END PUBLIC KEY-----
-';
+-----END PUBLIC KEY-----';
+
     protected $_client;
     protected $_secret = '';
     protected $_data;
     protected $_test = false;
     protected $_response = false;
     protected $_errorMessage = false;
+    protected $_requestMethod = '';
     protected $_url = '';
     protected $_config;
 
@@ -79,6 +80,7 @@ eQIDAQAB
 
 
     public function Post($data) {
+        $this->_requestMethod = Zend_Http_Client::POST;
         $raw_data = Mage::helper('core')->jsonEncode($data);
         $signature = $this->signRequest(Zend_Http_Client::POST,$raw_data);
         $_client = $this->getClient($signature);
@@ -90,6 +92,7 @@ eQIDAQAB
     }
 
     public function Get() {
+        $this->_requestMethod = Zend_Http_Client::GET;
         $signature = $this->signRequest(Zend_Http_Client::GET);
         $_client = $this->getClient($signature);
 
@@ -99,6 +102,7 @@ eQIDAQAB
 
     public function Put($data)
     {
+        $this->_requestMethod = Zend_Http_Client::PUT;
         $raw_data = Mage::helper('core')->jsonEncode($data);
         $signature = $this->signRequest(Zend_Http_Client::PUT,$raw_data);
         $_client = $this->getClient($signature);
@@ -112,7 +116,18 @@ eQIDAQAB
     protected function checkResponse($response)
     {
         $this->_data = false;
-        //$this->verifySignature($this->getLastSignature(),$response->getHeader('X-mcash-signature'));
+
+        $contentMd5 = $response->getHeader('Content-md5');
+        $signature = $response->getHeader('X-mcash-signature');
+        $signatureData = $this->_buildSignatureData($this->_requestMethod, $this->_url, $contentMd5);
+        $validSignature = $this->verifySignature($signatureData, $signature);
+
+        if (!$validSignature) {
+            Mage::log("[mCASH] Invalid signature!");
+            $_errorMessage = "Signature in response did not pass validation";
+            return false;
+        }
+
         if ($response->isSuccessful()) {
             $this->_data = Mage::helper('core')->jsonDecode($response->getBody());
             return true;
@@ -135,11 +150,20 @@ eQIDAQAB
         }
     }
 
-    public function verifySignature($data,$signature)
+    public function verifySignature($data, $signature)
     {
-        $rsa = new Zend_Crypt_Rsa(array('certificateString' => self::MCASH_PUB_CERT));
-        return $rsa->verifySignature($data,$signature,Zend_Crypt_Rsa::BASE64);
+        return openssl_verify($data, base64_decode($signature), self::MCASH_PUB_CERT);
     }    
+
+    public function buildSignatureData($method, $url, $data) {
+        $contentMd5 = $data ? base64_encode(md5($data, true)) : "";
+        return $this->_buildSignatureData($method, $url, $contentMd5);
+    }
+
+    // Signature data has the following pattern: <request_method>|<request_url>|<content-md5>
+    private function _buildSignatureData($method, $url, $contentMd5) {
+        return sprintf("%s|%s|%s", strtoupper($method), $url, $contentMd5);
+    }
     
     protected function getBaseUrl()
     {
