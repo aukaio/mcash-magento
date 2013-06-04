@@ -2,11 +2,12 @@
 
 class Trollweb_Mcash_CallbackController extends Mage_Core_Controller_Front_Action
 {
-    
     public function shortlinkAction()
     {
-        $quoteid = $this->getRequest()->getParam('id',false);
-        $data =  $this->getRequest()->getRawBody();
+        $request = $this->getRequest();
+
+        $quoteid = $request->getParam('id',false);
+        $data =  $request->getRawBody();
 
         if (!$quoteid) {
             $this->_errorResponse('No Quote ID given');
@@ -18,13 +19,20 @@ class Trollweb_Mcash_CallbackController extends Mage_Core_Controller_Front_Actio
             return;
         }      
 
-        /*
-        if (!Mage::getModel('mcash/api_client')->verifySignature($this->getRequest()->getServer('HTTP_X_MCASH_SIGNATURE'),$data)) {
-            $this->_errorResponse('Invalid hash');
+        $requestMethod = $request->getServer('REQUEST_METHOD');
+        $signature = $request->getServer('HTTP_X_MCASH_SIGNATURE');
+        $absUrl = $this->buildAbsoluteUrl($request->getRequestUri());
+
+        $apiClient = Mage::getModel("mcash/api_client");
+        $signatureData = $apiClient->buildSignatureData($requestMethod, $absUrl, $data);
+
+        $validSignature = $apiClient->verifySignature($signatureData, $signature);
+        if (!$validSignature) {
+            Mage::log("[mCASH] Invalid signature");
+            $this->_errorResponse('Invalid signature');
             return;
         }
-        */
-        
+
         $jsonData = Mage::helper('core')->jsonDecode($data);
         if (!$jsonData) {
             $this->_errorResponse('Request is not a valid json format');
@@ -55,4 +63,8 @@ class Trollweb_Mcash_CallbackController extends Mage_Core_Controller_Front_Actio
     
     }
 
+    private function buildAbsoluteUrl($relativeUrl) {
+        $baseUrl = Mage::getBaseUrl("link", true);
+        return rtrim($baseUrl, "/") . $relativeUrl;
+    }
 }
