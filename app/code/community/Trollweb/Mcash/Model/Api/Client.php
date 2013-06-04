@@ -85,6 +85,7 @@ eQIDAQAB
         $signature = $this->signRequest(Zend_Http_Client::POST,$raw_data);
         $_client = $this->getClient($signature);
         $_client->setRawData($raw_data);
+        $_client->setHeaders('Content-md5', $this->contentMd5Encode($raw_data));
 
         $this->_response = $_client->request(Zend_Http_Client::POST);
 
@@ -107,7 +108,7 @@ eQIDAQAB
         $signature = $this->signRequest(Zend_Http_Client::PUT,$raw_data);
         $_client = $this->getClient($signature);
         $_client->setRawData($raw_data);
-
+        $_client->setHeaders('Content-md5', $this->contentMd5Encode($raw_data));
         $this->_response = $_client->request(Zend_Http_Client::PUT);
         return $this->checkResponse($this->_response);
     }
@@ -155,8 +156,15 @@ eQIDAQAB
         return openssl_verify($data, base64_decode($signature), self::MCASH_PUB_CERT);
     }    
 
+    public function contentMd5Encode($data) {
+        if (!$data) {
+            return "";
+        }
+        return base64_encode(md5($data, true));
+    }
+
     public function buildSignatureData($method, $url, $data) {
-        $contentMd5 = $data ? base64_encode(md5($data, true)) : "";
+        $contentMd5 = $this->contentMd5Encode($data);
         return $this->_buildSignatureData($method, $url, $contentMd5);
     }
 
