@@ -35,7 +35,8 @@
           <test>1</test>
           <title>mCash</title>
           <merchant_id backend_model="adminhtml/system_config_backend_encrypted" />
-          <secret backend_model="adminhtml/system_config_backend_encrypted" />
+          <user_id backend_model="adminhtml/system_config_backend_encrypted" />
+          <user_priv_key backend_model="adminhtml/system_config_backend_encrypted" />
           <pos_id backend_model="adminhtml/system_config_backend_encrypted" />
         </mcash>
       </payment>

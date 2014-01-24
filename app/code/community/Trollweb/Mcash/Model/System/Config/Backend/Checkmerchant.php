@@ -8,7 +8,8 @@ class Trollweb_Mcash_Model_System_Config_Backend_Checkmerchant extends Mage_Core
 
         if ($this->getFieldsetDataValue('merchant_id') && $this->getFieldsetDataValue('pos_id')) {
             $api = Mage::getModel('mcash/api');
-            $api->setSecret($this->getFieldsetDataValue('secret'));
+            $api->setUserId($this->getFieldsetDataValue('user_id'));
+            $api->setUserPrivKey($this->getFieldsetDataValue('user_priv_key'));
             $api->setMerchantId($this->getFieldsetDataValue('merchant_id'));
             $api->setPosId($this->getFieldsetDataValue('pos_id'));
 
@@ -25,7 +26,6 @@ class Trollweb_Mcash_Model_System_Config_Backend_Checkmerchant extends Mage_Core
                     else {
                         $name = Mage::app()->getDefaultStoreView()->getName();
                     }
-
 
                     if ($api->createPos($this->getFieldsetDataValue('pos_id'),$name)) {
                         // Successfull

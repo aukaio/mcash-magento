@@ -10,23 +10,23 @@ class Trollweb_Mcash_Model_Api extends Varien_Object
     */
     public function merchantExists()
     {
-        return $this->getClient()->setUrl('merchant/'.$this->getMerchantId().'/')->Get();
+        return $this->getClient()->setUrl('merchant/' . $this->getMerchantId() . '/')->Get();
     }
 
     public function posExists()
     {
-        return $this->getClient()->setUrl('merchant/'.$this->getMerchantId().'/pos/'.$this->getPosId().'/')->Get();    
+        return $this->getClient()->setUrl('pos/' . $this->getPosId().'/')->Get();
     }
 
     public function createPos($posId,$name)
     {
         $data = array(
+            'id'        => $posId,
             'name'      => $name,
             'type'      => 'webshop',
-            'secret'    => $this->getPosSecret(),
         );
 
-        return $this->getClient()->setUrl('merchant/'.$this->getMerchantId().'/pos/'.$posId.'/')->Put($data);
+        return $this->getClient()->setUrl('pos/')->Post($data);
     }
 
     public function getQrImage($shortLink)
@@ -39,41 +39,42 @@ class Trollweb_Mcash_Model_Api extends Varien_Object
     {
 
         $data = array(
-            'callUri' => Mage::getUrl('mcash/callback/shortlink/id/'.$quoteId, array('_secure' => true,'_nosid'=>true)),
-            );
+            'callback_uri' => Mage::getUrl('mcash/callback/shortlink/id/'.$quoteId, array('_secure' => true,'_nosid'=>true)),
+        );
 
-        if ($this->getClient()->setUrl('merchant/'.$this->getMerchantId().'/shortlink/')->Post($data))
+        if ($this->getClient()->setUrl('shortlink/')->Post($data))
         {
             return $this->getClient()->getData('id');
         }
         return false;
     }
 
-    public function sale($customer,$amount,$orderId,$text,$currency='NOK')
+    public function paymentRequest($customer, $amount, $orderId, $text, $currency='NOK')
     {
         $data = array(
-            'posTimestamp'     => date('Y-m-d h:i:s'),
-            'expiration'    => 120,
-            'customer'      => $customer,
-            'amount'        => $amount,
-            'currency'      => $currency,
-            'allowCredit'   => true,
-            'text'          => $text,
-//            'callbackUri'   => Mage::getUrl('mcash/callback/order/id/'.$orderId, array('_secure' => true,'_nosid'=>true)),
+            'customer' => $customer,
+            'currency' => $currency,
+            'amount' => $amount,
+            'allow_credit' => true,
+            'pos_id' => $this->getPosId(),
+            'pos_tid' => $orderId,
+            'action' => 'sale',
+            'text' => $text,
+            'expires_in' => 120,
         );
 
-        if ($this->getClient()->setUrl('merchant/'.$this->getMerchantId().'/pos/'.$this->getPosId().'/sale_request/'.$orderId.'/')->Put($data))
+        if ($this->getClient()->setUrl('payment_request/')->Post($data))
         {
-            return true;
+            $responseData = $this->getClient()->getData();
+            return $responseData["id"];
         }
+
         return false;
-
-
     }
 
-    public function saleOutcome($orderId)
+    public function paymentRequestOutcome($transactionId)
     {
-        if ($this->getClient()->setUrl('merchant/'.$this->getMerchantId().'/pos/'.$this->getPosId().'/sale_request/'.$orderId.'/outcome/')->Get())
+        if ($this->getClient()->setUrl('payment_request/' . $transactionId . '/outcome/')->Get())
         {
             return $this->getClient()->getData();
         }
@@ -81,7 +82,7 @@ class Trollweb_Mcash_Model_Api extends Varien_Object
 
 
     }
-    
+
     /* Set / Get */
 
     public function getErrorMessage()
@@ -99,7 +100,23 @@ class Trollweb_Mcash_Model_Api extends Varien_Object
         if ($this->getData('merchant_id')) {
             return $this->getData('merchant_id');
         }
-        return Mage::helper('mcash')->getConfig('merchant_id');        
+        return Mage::helper('mcash')->getConfig('merchant_id');
+    }
+
+    public function getUserId()
+    {
+        if ($this->getData('user_id')) {
+            return $this->getData('user_id');
+        }
+        return Mage::helper('mcash')->getConfig('user_id');
+    }
+
+    public function getUserPrivKey()
+    {
+        if ($this->getData('user_priv_key')) {
+            return $this->getData('user_priv_key');
+        }
+        return Mage::helper('mcash')->getConfig('user_priv_key');
     }
 
     public function getPosId()
@@ -133,18 +150,18 @@ class Trollweb_Mcash_Model_Api extends Varien_Object
         return $this->getSecret();
     }
 
-    /** Protected **/ 
-
     protected function getClient()
     {
         if (!isset($this->_client)) {
             $this->_client = Mage::getModel('mcash/api_client');
-            $this->_client->setSecret($this->getSecret());
+            $this->_client->setUserId($this->getUserId());
+            $this->_client->setUserPrivateKey($this->getUserPrivKey());
+            $this->_client->setMerchantId($this->getMerchantId());
             if (Mage::helper('mcash')->getConfig('test')) {
                 $this->_client->setTest();
             }
         }
         return $this->_client;
     }
-    
+
 }

@@ -19,15 +19,8 @@ class Trollweb_Mcash_CallbackController extends Mage_Core_Controller_Front_Actio
             return;
         }      
 
-        $requestMethod = $request->getServer('REQUEST_METHOD');
-        $signature = $request->getServer('HTTP_X_MCASH_SIGNATURE');
-        $absUrl = $this->buildAbsoluteUrl($request->getRequestUri());
 
-        $apiClient = Mage::getModel("mcash/api_client");
-        $signatureData = $apiClient->buildSignatureData($requestMethod, $absUrl, $data);
-
-        $validSignature = $apiClient->verifySignature($signatureData, $signature);
-        if (!$validSignature) {
+        if (!$this->validateSignature($request)) {
             Mage::log("[mCASH] Invalid signature");
             $this->_errorResponse('Invalid signature');
             return;
@@ -45,7 +38,8 @@ class Trollweb_Mcash_CallbackController extends Mage_Core_Controller_Front_Actio
             return;
         }
 
-        $quote->getPayment()->setAdditionalInformation('mcash_token',$jsonData['id'])->save();
+        $token = $jsonData['object']['id'];
+        $quote->getPayment()->setAdditionalInformation('mcash_token', $token)->save();
 
         $result = array(
             'text' => 'Scan registered'
@@ -54,6 +48,17 @@ class Trollweb_Mcash_CallbackController extends Mage_Core_Controller_Front_Actio
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
+    private function validateSignature($request) {
+        $requestMethod = $request->getServer('REQUEST_METHOD');
+        $absUrl = $this->buildAbsoluteUrl($request->getRequestUri());
+        $headers = apache_request_headers();
+
+        $message = Mage::getModel("mcash/api_client")->buildSignatureMessage($requestMethod, $absUrl, $headers);
+        $key = Mage::helper("mcash")->getMcashPublicKey();
+        $authorization = $request->getHeader('Authorization');
+        list($sigType, $signature) = explode(" ", $authorization);
+        return Mage::helper("mcash/crypto")->verify_signature_pkcs1($key, $message, $signature);
+    }
 
     protected function _errorResponse($message)
     {

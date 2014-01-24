@@ -3,19 +3,9 @@
 class Trollweb_Mcash_Model_Api_Client
 {
 
-    const API_HOST_TEST = "playgroundmcashservice.appspot.com";
+    const API_HOST_TEST = "mcashtestbed.appspot.com";
     const API_HOST = "api.mca.sh";
     const API_VERSION = "1";
-
-    const MCASH_PUB_CERT = '-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8Pg5kMWZzX0U+ZGts6Ws
-oLrI1bN5PjXzFRAPza19qYrONVxhFlJx8AQWohISL1hKVPJCMuyQKhs0/2jtWk+E
-mDHXFafW+kYV7lseznj6nW49VFyxHYdQDNHgpyUA5p+lmZABbmcKGabw/Cp28vtH
-im4zWBGVXnQ7UPm1peMzeuaB7L246J+ZcfLpd3trSWg2mywB23rqELzTNKi0s7cb
-kS+2gk5B72q3qcaTO47rPgEVcUTB2A+jxcu6rOVFCbhQ8+JkLDPeHPDuIBQ5mAwN
-XLY+3ffovc31S5cMhquiKaYYwiuxeI23AWtNV2FoD00bm4q+5XCuBGgPJf3nkNYV
-eQIDAQAB
------END PUBLIC KEY-----';
 
     protected $_client;
     protected $_secret = '';
@@ -23,9 +13,12 @@ eQIDAQAB
     protected $_test = false;
     protected $_response = false;
     protected $_errorMessage = false;
-    protected $_requestMethod = '';
     protected $_url = '';
     protected $_config;
+    private $_headers;
+    private $_userId;
+    private $_userPrivKey;
+    private $_merchantId;
 
     public function __construct()
     {
@@ -33,24 +26,36 @@ eQIDAQAB
             'adapter'   => 'Zend_Http_Client_Adapter_Curl',
             'curloptions' => array(CURLOPT_FOLLOWLOCATION => true),
         );
-        
+
     }
 
     public function setUrl($url)
     {
-        $this->_url = $this->getBaseUrl().$url;
+        $this->_url = $this->getBaseUrl() . $url;
         return $this;
     }
 
 
     public function getQrImageUrl($shortlinkId,$args='')
     {
-	return 'https://'.($this->_test ? self::API_HOST_TEST : self::API_HOST).'/shortlink/v'.self::API_VERSION.'/qr_image/'.$shortlinkId.'/'.$args;
+        return 'https://'.($this->_test ? self::API_HOST_TEST : self::API_HOST).'/shortlink/v'.self::API_VERSION.'/qr_image/'.$shortlinkId.'/'.$args;
     }
 
-    public function setSecret($secret)
+    public function setUserId($id)
     {
-        $this->_secret = $secret;
+        $this->_userId = $id;
+        return $this;
+    }
+
+    public function setUserPrivateKey($key)
+    {
+        $this->_userPrivKey = $key;
+        return $this;
+    }
+
+    public function setMerchantId($id)
+    {
+        $this->_merchantId = $id;
         return $this;
     }
 
@@ -78,56 +83,50 @@ eQIDAQAB
         return $this->_errorMessage;
     }
 
+    public function Get() {
+        $_client = $this->getClient();
+        $this->_response = $this->sendSignedRequest($_client, "GET");
+        return $this->checkResponse($this->_response);
+    }
 
     public function Post($data) {
-        $this->_requestMethod = Zend_Http_Client::POST;
         $raw_data = Mage::helper('core')->jsonEncode($data);
-        $signature = $this->signRequest(Zend_Http_Client::POST,$raw_data);
-        $_client = $this->getClient($signature);
-        $_client->setRawData($raw_data);
-        $_client->setHeaders('Content-md5', $this->contentMd5Encode($raw_data));
-
-        $this->_response = $_client->request(Zend_Http_Client::POST);
-
+        $_client = $this->getClient();
+        $this->_response = $this->sendSignedRequest($_client, "POST", $raw_data);
         return $this->checkResponse($this->_response);
     }
 
-    public function Get() {
-        $this->_requestMethod = Zend_Http_Client::GET;
-        $signature = $this->signRequest(Zend_Http_Client::GET);
-        $_client = $this->getClient($signature);
-
-        $this->_response = $_client->request(Zend_Http_Client::GET);
-        return $this->checkResponse($this->_response);
-    }
-
-    public function Put($data)
-    {
-        $this->_requestMethod = Zend_Http_Client::PUT;
+    public function Put($data) {
         $raw_data = Mage::helper('core')->jsonEncode($data);
-        $signature = $this->signRequest(Zend_Http_Client::PUT,$raw_data);
-        $_client = $this->getClient($signature);
-        $_client->setRawData($raw_data);
-        $_client->setHeaders('Content-md5', $this->contentMd5Encode($raw_data));
-        $this->_response = $_client->request(Zend_Http_Client::PUT);
+        $_client = $this->getClient();
+        $this->_response = $this->sendSignedRequest($_client, "PUT", $raw_data);
         return $this->checkResponse($this->_response);
     }
 
+    private function setRawData($client, $data) {
+        $client->setRawData($data);
+        $this->setHeader("X-Mcash-Content-Digest", $this->contentDigest($data));
+    }
+
+    private function sendSignedRequest($client, $method, $data="") {
+        $this->setRawData($client, $data);
+
+        // Add authorization header with signature
+        $signature = $this->sign($method, $this->_url, $this->_headers);
+        $this->setHeader('Authorization', "RSA-SHA256 " . $signature);
+
+        // Set headers on http client
+        foreach ($this->_headers as $key => $value) {
+            $client->setHeaders($key, $value);
+        }
+
+        // Send request
+        return $client->request($method);
+    }
 
     protected function checkResponse($response)
     {
         $this->_data = false;
-
-        $contentMd5 = $response->getHeader('Content-md5');
-        $signature = $response->getHeader('X-mcash-signature');
-        $signatureData = $this->_buildSignatureData($this->_requestMethod, $this->_url, $contentMd5);
-        $validSignature = $this->verifySignature($signatureData, $signature);
-
-        if (!$validSignature) {
-            Mage::log("[mCASH] Invalid signature!");
-            $_errorMessage = "Signature in response did not pass validation";
-            return false;
-        }
 
         if ($response->isSuccessful()) {
             $this->_data = Mage::helper('core')->jsonDecode($response->getBody());
@@ -146,53 +145,95 @@ eQIDAQAB
                 $errorMessage = $error['error'];
             }
             $this->_errorMessage = $errorMessage;
-	    Mage::log('[mCASH] '.$errorMessage,Zend_Log::ERR);
+            Mage::log('[mCASH] '.$errorMessage,Zend_Log::ERR);
             return false;
         }
     }
 
-    public function verifySignature($data, $signature)
-    {
-        return openssl_verify($data, base64_decode($signature), self::MCASH_PUB_CERT);
-    }    
-
-    public function contentMd5Encode($data) {
-        if (!$data) {
-            return "";
-        }
-        return base64_encode(md5($data, true));
-    }
-
-    public function buildSignatureData($method, $url, $data) {
-        $contentMd5 = $this->contentMd5Encode($data);
-        return $this->_buildSignatureData($method, $url, $contentMd5);
-    }
-
-    // Signature data has the following pattern: <request_method>|<request_url>|<content-md5>
-    private function _buildSignatureData($method, $url, $contentMd5) {
-        return sprintf("%s|%s|%s", strtoupper($method), $url, $contentMd5);
-    }
-    
     protected function getBaseUrl()
     {
-        return 'https://'.($this->_test ? self::API_HOST_TEST : self::API_HOST).'/merchantapi/v'.self::API_VERSION.'/';
+        return 'https://' . ($this->_test ? self::API_HOST_TEST : self::API_HOST) . '/merchant/v' . self::API_VERSION . '/';
     }
 
-    protected function signRequest($method,$data='')
-    {
-        $requestData = $method.$this->_url.$data;
-        return base64_encode(hash_hmac('sha256',$requestData,$this->_secret,true));
+    // The base64 encoded hash digest of the request body. If the body is
+    // empty, the hash should be computed on an empty string. The value of the
+    // header should be on the form <algorithm (uppercase)>=<digest value>.
+    private function contentDigest($data="") {
+        return "SHA256=" . base64_encode(hash("sha256", $data, true));
     }
 
-    protected function getClient($signature)
+    // The current UTC time. The time format is YYYY-MM-DD hh:mm:ss.
+    private function utcTimestamp() {
+        return date("Y-m-d H:i:s", time());
+    }
+
+    // The string that is to be signed (the signature message) is
+    // constructed from the request in the following manner:
+    //
+    // <method>|<url>|<headers>
+    // Here, method is the HTTP method used in the request, url is the
+    // full url including protocol and query component (the part after ?)
+    // but without fragment component (The part after #). The scheme name
+    // (typically https) and hostname components are always lowercase, while
+    // the rest of the url is case sensitive. The headers part is a
+    // querystring using header names and values as key-value pairs. So, the
+    // constructed string will be of the form:
+    //
+    // name1=value1&name2=value2...
+    // In addition the following requirements apply:
+    //
+    // Headers are sorted alphabetically.
+    // All header names must be made uppercase before constructing the string.
+    // Headers whose names don't start with "X-MCASH-" are not included.
+    public function buildSignatureMessage($requestMethod, $url, $headers) {
+        // Find headers that start with X-MCASH
+        $mcashHeaders = array();
+        foreach ($headers as $key => $value) {
+            $ucKey = strtoupper($key);
+            if (substr($ucKey, 0, 7) === "X-MCASH") {
+                $mcashHeaders[$ucKey] = $value;
+            }
+        }
+
+        // Sort headers by key
+        ksort($mcashHeaders);
+
+        // Create key value pairs 'key=value'
+        $headerPairs = array();
+        foreach ($mcashHeaders as $key => $value) {
+            $headerPairs[] = sprintf("%s=%s", $key, $value);
+        }
+
+        // Join header pairs
+        $headerString = implode("&", $headerPairs);
+
+        return sprintf(
+            "%s|%s|%s", strtoupper($requestMethod), $url, $headerString
+        );
+    }
+
+    private function sign($requestMethod, $url, $headers) {
+        $message = $this->buildSignatureMessage($requestMethod, $url, $headers);
+        $crypto = Mage::helper("mcash/crypto");
+        return $crypto->sign_pkcs1($this->_userPrivKey, $message);
+    }
+
+    protected function getClient()
     {
         $_client = new Zend_Http_Client($this->_url, $this->_config);
-        $_client->setHeaders('Accept','application/json,application/vnd.mcash-merchantapi-v'.self::API_VERSION.'+json'); 
-        $_client->setHeaders('Content-type','application/json');
-        $_client->setHeaders('X-Mcash-Signature-Method','HMAC-SHA256');
-        $_client->setHeaders('X-Mcash-Signature',$signature);
+        $this->setHeader('Accept','application/json,application/vnd.mcash.api.merchant.v'.self::API_VERSION.'+json');
+        $this->setHeader('Content-type','application/json');
+        $this->setHeader('X-Mcash-Merchant',$this->_merchantId);
+        $this->setHeader('X-Mcash-User',$this->_userId);
+        $this->setHeader('X-Mcash-Timestamp',$this->utcTimestamp());
 
-        return $_client;        
+        if ($this->_test) {
+            $this->setHeader('X-Testbed-Token', 's_Qu1gkYsZUvK-RvO43Ij02CYV-3wyMp6uUn0AodymQ');
+        }
+        return $_client;
     }
 
+    private function setHeader($key, $value) {
+        $this->_headers[$key] = $value;
+    }
 }

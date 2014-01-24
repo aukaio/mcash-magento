@@ -23,7 +23,7 @@ Telefon <b>+47 51215300</b> (0800-1600, man-fre)<br />
 <font size=1>Nets NetAxept modulen er utviklet av <a href="http://www.trollweb.no">Trollweb Solutions AS</a> i Norge og er godkjent av <a href="http://mca.sh/">mCASH</a>. Videredistribusjon av noe slag er ikke tillatt uten etter avtale med Trollweb.</font><br />
  <br />
 </div>
-</div>          
+</div>
 ]]></comment>
                     <fields>
                         <active translate="label">
@@ -36,7 +36,7 @@ Telefon <b>+47 51215300</b> (0800-1600, man-fre)<br />
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </active>
-      
+
                         <title translate="label">
                             <label>Tittel</label>
                             <frontend_type>text</frontend_type>
@@ -69,28 +69,40 @@ Telefon <b>+47 51215300</b> (0800-1600, man-fre)<br />
                             <show_in_store>1</show_in_store>
                             <comment><![CDATA[Din unike kunde-ID fra mCASH.]]></comment>
                         </merchant_id>
-      
-                        <pos_id translate="label">
-                            <label>POS ID</label>
-                            <frontend_type>text</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-                            <sort_order>11</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment><![CDATA[Din POS id fra mCASH]]></comment>
-                        </pos_id>
 
-                        <secret translate="label">
-                            <label>Secret</label>
+                        <user_id translate="label">
+                            <label>User</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
                             <sort_order>12</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment><![CDATA[]]></comment>
-                        </secret>
+                            <comment><![CDATA[Your user id from mCASH]]></comment>
+                        </user_id>
+
+                        <user_priv_key translate="label">
+                            <label>Private Key</label>
+                            <frontend_type>textarea</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[The private key belonging to the above user]]></comment>
+                        </user_priv_key>
+
+                        <pos_id translate="label">
+                            <label>POS ID</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Din POS id fra mCASH]]></comment>
+                        </pos_id>
+
                         <!--
                         <test_mode translate="label">
                           <label>Test modus</label>
@@ -116,7 +128,7 @@ Telefon <b>+47 51215300</b> (0800-1600, man-fre)<br />
                                 <![CDATA[Authorize Only (standard) reserverer først beløpet på kundens kort. Man må deretter kjøre Capture (trekke beløpet) i ordrebehandlingen i Magento når ordren sendes. Det er ikke lov å trekke penger fra kortet før varene sendes. Kunder som selger for eksempel digitale produkter som kunden mottar umiddelbart kan bruke Authorize + Capture.]]>
                             </tooltip>
                         </payment_action>
-                  
+
                         <auth_order_status translate="label">
                             <label>Ordrestatus på autoriserte ordrer</label>
                             <frontend_type>select</frontend_type>
@@ -129,7 +141,7 @@ Telefon <b>+47 51215300</b> (0800-1600, man-fre)<br />
                                 <![CDATA[Velg ønsket ordrestatus på ordrer som har blitt authentisert og godkjent hos mCASH. Ordrer får normalt Venter/Pending før de er betalt. Ordrestatus som settes her er den de får når betalingen er bekreftet.]]>
                             </comment>
                         </auth_order_status>
-                         
+
                         <allowspecific translate="label">
                             <label>Tillatt enkelt-land som kan bruke mCASH</label>
                             <frontend_type>allowspecific</frontend_type>
@@ -139,7 +151,7 @@ Telefon <b>+47 51215300</b> (0800-1600, man-fre)<br />
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </allowspecific>
-                   
+
                         <specificcountry translate="label">
                             <label>Spesifiser hvilke land som kan bruke mCASH</label>
                             <frontend_type>multiselect</frontend_type>
@@ -161,7 +173,7 @@ Telefon <b>+47 51215300</b> (0800-1600, man-fre)<br />
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </enable_log>
-                                   
+
                         <sort_order translate="label">
                             <label>Sortering av betalingsmetode</label>
                             <frontend_type>text</frontend_type>
