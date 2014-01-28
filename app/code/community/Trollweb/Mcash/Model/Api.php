@@ -49,7 +49,7 @@ class Trollweb_Mcash_Model_Api extends Varien_Object
         return false;
     }
 
-    public function paymentRequest($customer, $amount, $orderId, $text, $currency='NOK')
+    public function paymentRequestAuthorize($customer, $amount, $orderId, $text, $currency='NOK')
     {
         $data = array(
             'customer' => $customer,
@@ -58,7 +58,7 @@ class Trollweb_Mcash_Model_Api extends Varien_Object
             'allow_credit' => true,
             'pos_id' => $this->getPosId(),
             'pos_tid' => $orderId,
-            'action' => 'sale',
+            'action' => 'AUTH',
             'text' => $text,
             'expires_in' => 120,
         );
@@ -67,6 +67,34 @@ class Trollweb_Mcash_Model_Api extends Varien_Object
         {
             $responseData = $this->getClient()->getData();
             return $responseData["id"];
+        }
+
+        return false;
+    }
+
+    public function paymentRequestCaptureFull($transactionId) {
+        $data = array(
+            'action' => 'CAPTURE',
+        );
+
+        return $this->paymentRequestCapture($transactionId, $data);
+    }
+
+    public function paymentRequestCapturePartial($transactionId, $amount, $captureId, $currency='NOK') {
+        $data = array(
+            'action' => 'CAPTURE',
+            'amount' => $amount,
+            'capture_id' => $captureId,
+            'additional_amount' => "0.00",
+            'currency' => $currency,
+        );
+
+        return $this->paymentRequestCapture($transactionId, $data);
+    }
+
+    private function paymentRequestCapture($transactionId, $data) {
+        if ($this->getClient()->setUrl('payment_request/' . $transactionId . '/')->Put($data)) {
+            return true;
         }
 
         return false;
