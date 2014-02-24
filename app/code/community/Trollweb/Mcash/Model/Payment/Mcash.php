@@ -71,7 +71,8 @@ class Trollweb_Mcash_Model_Payment_Mcash extends Mage_Payment_Model_Method_Abstr
             $result = $api->paymentRequestOutcome($transactionId);
             $status = $result['status'];
             if ($status == 'pending') {
-                usleep(1000);
+                // Sleep for 1 second
+                usleep(1000000);
                 continue;
             }
 
@@ -117,7 +118,7 @@ class Trollweb_Mcash_Model_Payment_Mcash extends Mage_Payment_Model_Method_Abstr
         }
 
         $isOk = false;
-        $giveuptime = time()+120;
+        $giveuptime = time() + 30;
 
         while (time() < $giveuptime) {
             $result = $api->paymentRequestOutcome($transactionId);
@@ -125,7 +126,8 @@ class Trollweb_Mcash_Model_Payment_Mcash extends Mage_Payment_Model_Method_Abstr
 
 
             if ($status == 'auth') {
-                usleep(1000);
+                // Sleep for 1 second
+                usleep(1000000);
                 continue;
             }
 
@@ -148,7 +150,7 @@ class Trollweb_Mcash_Model_Payment_Mcash extends Mage_Payment_Model_Method_Abstr
         }
 
         $isOk = false;
-        $giveuptime = time()+5;
+        $giveuptime = time() + 30;
 
         while (time() < $giveuptime) {
             $result = $api->paymentRequestOutcome($transactionId);
@@ -162,6 +164,9 @@ class Trollweb_Mcash_Model_Payment_Mcash extends Mage_Payment_Model_Method_Abstr
                     break;
                 }
             }
+
+            // Sleep for 1 second
+            usleep(1000000);
         }
 
         if (!$isOk) {
