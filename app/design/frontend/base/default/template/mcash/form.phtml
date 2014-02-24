@@ -2,9 +2,10 @@
     <?php $_code=$this->getMethodCode() ?>
     <?php $_qrCodeImage = $this->getQrImage(); ?>
     <ul id="payment_form_<?php echo $_code ?>" style="display:none">
-        <li>
-            <img src="<?php echo $_qrCodeImage; ?>">
-        </li>
-        <li>Scan the mCASH QR Code before you submit your order</li>
+        <li class="mcash-qr"><img src="<?php echo $_qrCodeImage; ?>"></li>
+        <li class="mcash-qr"><?php echo $this->__("Scan the mCASH QR code before you submit your order") ?></li>
+        <li id="mcash-qr-scanned" class="hide"><?php echo $this->__("QR code is scanned, ready to submit order") ?></li>
     </ul>
+
+
 </fieldset>

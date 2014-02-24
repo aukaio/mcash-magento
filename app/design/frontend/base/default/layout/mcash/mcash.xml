@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+  <!-- Load for onepage checkout -->
+  <checkout_onepage_index>
+    <reference name="head">
+      <action method="addItem"><type>skin_js</type><name>mcash/mcash.js</name></action>
+      <action method="addCss"><script>mcash/mcash.css</script></action>
+    </reference>
+
+    <reference name="before_body_end">
+      <block type="mcash/mcash" template="mcash/mcash.phtml" name="mcash_mcash" />
+    </reference>
+  </checkout_onepage_index>
+
+
+  <!-- Load for onestepcheckout -->
+  <onestepcheckout_index_index>
+    <reference name="head">
+      <action method="addItem"><type>skin_js</type><name>mcash/mcash.js</name></action>
+      <action method="addCss"><script>mcash/mcash.css</script></action>
+    </reference>
+
+    <reference name="before_body_end">
+      <block type="mcash/mcash" template="mcash/mcash.phtml" name="mcash_mcash" />
+    </reference>
+  </onestepcheckout_index_index>
+
+
+  <!-- Load for gomagechekout -->
+  <gomage_checkout_onepage_index>
+    <reference name="head">
+      <action method="addItem"><type>skin_js</type><name>mcash/mcash.js</name></action>
+      <action method="addCss"><script>mcash/mcash.css</script></action>
+    </reference>
+
+    <reference name="before_body_end">
+      <block type="mcash/mcash" template="mcash/mcash.phtml" name="mcash_mcash" />
+    </reference>
+  </gomage_checkout_onepage_index>
+</layout>

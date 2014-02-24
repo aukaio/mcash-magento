@@ -43,6 +43,15 @@
     </default>
 
     <frontend>
+      <!-- Load layout file -->
+      <layout>
+        <updates>
+          <mcash>
+            <file>mcash/mcash.xml</file>
+          </mcash>
+        </updates>
+      </layout>
+
         <secure_url>
             <mcash_callback>/mcash/callback</mcash_callback>
         </secure_url>
