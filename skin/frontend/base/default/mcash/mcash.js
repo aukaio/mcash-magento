@@ -4,6 +4,7 @@ document.observe("dom:loaded", function() {
 
     function checkQRStatus() {
         new Ajax.Request(statusUrl, {
+            method: "GET",
             onSuccess: function(res) {
                 var data = res.responseJSON;
                 if (!data) {
@@ -11,7 +12,6 @@ document.observe("dom:loaded", function() {
                 }
 
                 if (data.scanned === true) {
-                    clearInterval(intervalId);
                     hideQrCode();
                     showIsScanned();
                 }
