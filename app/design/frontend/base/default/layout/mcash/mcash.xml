@@ -38,4 +38,27 @@
       <block type="mcash/mcash" template="mcash/mcash.phtml" name="mcash_mcash" />
     </reference>
   </gomage_checkout_onepage_index>
+
+  <!-- Load for TCO -->
+  <trollweb_tco_checkout_onestep>
+    <reference name="head">
+      <action method="addItem"><type>skin_js</type><name>mcash/mcash.js</name></action>
+      <action method="addCss"><script>mcash/mcash.css</script></action>
+    </reference>
+
+    <reference name="before_body_end">
+      <block type="mcash/mcash" template="mcash/mcash.phtml" name="mcash_mcash" />
+    </reference>
+  </trollweb_tco_checkout_onestep>
+
+  <trollweb_tco_checkout_onepage>
+    <reference name="head">
+      <action method="addItem"><type>skin_js</type><name>mcash/mcash.js</name></action>
+      <action method="addCss"><script>mcash/mcash.css</script></action>
+    </reference>
+
+    <reference name="before_body_end">
+      <block type="mcash/mcash" template="mcash/mcash.phtml" name="mcash_mcash" />
+    </reference>
+  </trollweb_tco_checkout_onepage>
 </layout>
