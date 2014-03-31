@@ -92,6 +92,14 @@ class Trollweb_Mcash_Model_Api extends Varien_Object
         return $this->paymentRequestCapture($transactionId, $data);
     }
 
+    public function paymentRequestReauthorize($transactionId) {
+        $data = array(
+            'action' => 'REAUTH',
+        );
+
+        return $this->paymentRequestCapture($transactionId, $data);
+    }
+
     private function paymentRequestCapture($transactionId, $data) {
         if ($this->getClient()->setUrl('payment_request/' . $transactionId . '/')->Put($data)) {
             return true;

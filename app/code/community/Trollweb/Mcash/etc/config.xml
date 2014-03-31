@@ -66,4 +66,17 @@
         </routers>
     </frontend>
 
+   <crontab>
+     <jobs>
+       <trollweb_mcash>
+         <schedule>
+           <cron_expr>13 3 * * *</cron_expr>
+         </schedule>
+         <run>
+           <model>mcash/cron::reauthorize</model>
+         </run>
+       </trollweb_mcash>
+     </jobs>
+   </crontab>
+
 </config>
