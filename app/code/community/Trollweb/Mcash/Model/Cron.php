@@ -5,12 +5,9 @@ class Trollweb_Mcash_Model_Cron extends Mage_Core_Model_Abstract {
     public function reauthorize($schedule) {
         Mage::log("Reauthorizing...");
 
-        $threeDaysAgo = date('Y-m-d h:i:s', strtotime('-3 days'));
-
         $orders = Mage::getModel('sales/order')
             ->getCollection()
-            ->addAttributeToFilter('status', array('nin' => array("complete", "canceled")))
-            ->addFieldToFilter('created_at', array('gt' => $threeDaysAgo));
+            ->addAttributeToFilter('status', array('nin' => array("complete", "canceled")));
 
         Mage::getSingleton('core/resource_iterator')->walk($orders->getSelect(), array(array($this, 'reauthorizeOrder')));
     }
