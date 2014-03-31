@@ -31,6 +31,7 @@
         <mcash>
           <model>Trollweb_Mcash_Model_Payment_Mcash</model>
           <payment_action>authorize</payment_action>
+          <order_status>processing</order_status>
           <active>0</active>
           <test>1</test>
           <title>mCash</title>

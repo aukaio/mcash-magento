@@ -127,7 +127,7 @@ Telefon <b>+47 51215300</b> (0800-1600, man-fre)<br />
                             </tooltip>
                         </payment_action>
 
-                        <auth_order_status translate="label">
+                        <order_status translate="label">
                             <label>Ordrestatus på autoriserte ordrer</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_order_status</source_model>
@@ -138,7 +138,7 @@ Telefon <b>+47 51215300</b> (0800-1600, man-fre)<br />
                             <comment>
                                 <![CDATA[Velg ønsket ordrestatus på ordrer som har blitt authentisert og godkjent hos mCASH. Ordrer får normalt Venter/Pending før de er betalt. Ordrestatus som settes her er den de får når betalingen er bekreftet.]]>
                             </comment>
-                        </auth_order_status>
+                        </order_status>
 
                         <allowspecific translate="label">
                             <label>Tillatt enkelt-land som kan bruke mCASH</label>
