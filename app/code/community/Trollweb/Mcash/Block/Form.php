@@ -34,6 +34,10 @@ class Trollweb_Mcash_Block_Form extends Mage_Payment_Block_Form
         return !empty($token);
     }
 
+    public function getLogoUrl() {
+        return $this->getSkinUrl('mcash/mcash.png', array('_secure' => true));
+    }
+
     protected function getSession()
     {
         return Mage::getSingleton('checkout/session');
