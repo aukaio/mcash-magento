@@ -2,9 +2,12 @@
     <?php $_code=$this->getMethodCode() ?>
     <?php $_qrCodeImage = $this->getQrImage(); ?>
     <ul id="payment_form_<?php echo $_code ?>" style="display:none">
-        <li class="mcash-qr"><img src="<?php echo $_qrCodeImage; ?>"></li>
-        <li class="mcash-qr"><?php echo $this->__("Scan the mCASH QR code before you submit your order") ?></li>
-        <li id="mcash-qr-scanned" class="hide"><?php echo $this->__("QR code is scanned. Submit your order and accept the payment with the mCash app on your phone to complete the order") ?></li>
+        <li class="mcash-qr <?php echo $this->isScanned() ? "hide" : "" ?>"><img src="<?php echo $_qrCodeImage; ?>"></li>
+        <li class="mcash-qr <?php echo $this->isScanned() ? "hide" : "" ?>"><?php echo $this->__("Scan the mCASH QR code before you submit your order") ?></li>
+        <li id="mcash-qr-scanned" class="<?php echo $this->isScanned() ? "" : "hide" ?>">
+            <p class="scan-success"><?php echo $this->__("QR code is scanned.") ?></p>
+            <p class="scan-info"><?php echo $this->__("Submit your order and accept the payment with the mCash app on your phone to complete the order") ?></p>
+        </li>
     </ul>
 
 

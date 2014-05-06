@@ -28,6 +28,12 @@ class Trollweb_Mcash_Block_Form extends Mage_Payment_Block_Form
        return $api->getQrImage($payment->getAdditionalInformation(Trollweb_Mcash_Model_Payment_Mcash::MCASH_SHORTLINK));
     }
 
+    public function isScanned() {
+        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        $token = $quote->getPayment()->getAdditionalInformation('mcash_token');
+        return !empty($token);
+    }
+
     protected function getSession()
     {
         return Mage::getSingleton('checkout/session');
