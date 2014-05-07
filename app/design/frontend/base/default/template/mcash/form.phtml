@@ -1,15 +1,28 @@
 <fieldset class="form-list">
     <img id="mcash-logo" src="<?php echo $this->getLogoUrl() ?>">
     <?php $_code=$this->getMethodCode() ?>
-    <?php $_qrCodeImage = $this->getQrImage(); ?>
     <ul id="payment_form_<?php echo $_code ?>" style="display:none">
-        <li class="mcash-qr <?php echo $this->isScanned() ? "hide" : "" ?>"><img src="<?php echo $_qrCodeImage; ?>"></li>
+        <div id="loading-qr"><?php echo $this->__("Loading QR code...") ?></div>
+        <li class="mcash-qr <?php echo $this->isScanned() ? "hide" : "" ?>"><img class="hide" id="qr-image" src=""></li>
         <li class="mcash-qr <?php echo $this->isScanned() ? "hide" : "" ?>"><?php echo $this->__("Scan the mCASH QR code before you submit your order") ?></li>
         <li id="mcash-qr-scanned" class="<?php echo $this->isScanned() ? "" : "hide" ?>">
             <p class="scan-success"><?php echo $this->__("QR code is scanned.") ?></p>
             <p class="scan-info"><?php echo $this->__("Submit your order and accept the payment with the mCASH app on your phone to complete the order") ?></p>
         </li>
     </ul>
-
-
 </fieldset>
+
+<script>
+    var url = "<?php echo $this->getQrImageApiUrl() ?>";
+    new Ajax.Request(url, {
+        method: "GET",
+        onSuccess: function(res) {
+            var data = res.responseJSON;
+            if (data) {
+                $("qr-image").src = data.url;
+                $("qr-image").removeClassName("hide");
+                $("loading-qr").addClassName("hide");
+            }
+        }
+    });
+</script>

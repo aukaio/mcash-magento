@@ -8,24 +8,8 @@ class Trollweb_Mcash_Block_Form extends Mage_Payment_Block_Form
         parent::_construct();
     }
 
-    public function getQRImage()
-    {
-        $api = Mage::getModel('mcash/api'); 
-        $quote = $this->getSession()->getQuote();
-        if (!$quote) {
-            return false;
-        }
-        $payment = $quote->getPayment();
-        if (!$payment) {
-            return false;
-        }
-        if (!$payment->getAdditionalInformation(Trollweb_Mcash_Model_Payment_Mcash::MCASH_SHORTLINK)) {
-            if ($shortLink = $api->getShortLink($quote->getId())) {
-                $payment->setAdditionalInformation(Trollweb_Mcash_Model_Payment_Mcash::MCASH_SHORTLINK,$shortLink)->save();
-            }
-         
-       }
-       return $api->getQrImage($payment->getAdditionalInformation(Trollweb_Mcash_Model_Payment_Mcash::MCASH_SHORTLINK));
+    public function getQrImageApiUrl() {
+        return Mage::getUrl('mcash/checkout/qr', array("_secure" => true));
     }
 
     public function isScanned() {
