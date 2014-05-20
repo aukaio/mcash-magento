@@ -11,18 +11,3 @@
         </li>
     </ul>
 </fieldset>
-
-<script>
-    var url = "<?php echo $this->getQrImageApiUrl() ?>";
-    new Ajax.Request(url, {
-        method: "GET",
-        onSuccess: function(res) {
-            var data = res.responseJSON;
-            if (data) {
-                $("qr-image").src = data.url;
-                $("qr-image").removeClassName("hide");
-                $("loading-qr").addClassName("hide");
-            }
-        }
-    });
-</script>

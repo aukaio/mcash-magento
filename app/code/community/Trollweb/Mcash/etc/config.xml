@@ -41,6 +41,14 @@
           <pos_id backend_model="adminhtml/system_config_backend_encrypted" />
         </mcash>
       </payment>
+      <trollweb_mcash>
+        <api>
+          <baseurl_prod>https://api.mca.sh</baseurl_prod>
+          <baseurl_test>https://mcashtestbed.appspot.com</baseurl_test>
+          <oauth_version>v1</oauth_version>
+          <testbed_token>s_Qu1gkYsZUvK-RvO43Ij02CYV-3wyMp6uUn0AodymQ</testbed_token>
+        </api>
+      </trollweb_mcash>
     </default>
 
     <frontend>

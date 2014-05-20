@@ -119,6 +119,35 @@ class Trollweb_Mcash_Model_Api extends Varien_Object
 
     }
 
+    public function createPermissionRequest($customer, $posTid, $expires, $scope)
+    {
+        $data = array(
+            'customer' => $customer,
+            'pos_id' => $this->getPosId(),
+            'pos_tid' => $posTid,
+            'expires_in' => $expires,
+            'scope' => $scope,
+        );
+
+        if ($this->getClient()->setUrl('permission_request/')->Post($data))
+        {
+            return $this->getClient()->getData();
+        }
+
+        return false;
+    }
+
+    public function getPermissionRequestOutcome($rid) {
+        $url = "permission_request/" . $rid . "/outcome/";
+        if ($this->getClient()->setUrl($url)->Get())
+        {
+            $responseData = $this->getClient()->getData();
+            return $responseData;
+        }
+
+        return false;
+    }
+
     /* Set / Get */
 
     public function getErrorMessage()
