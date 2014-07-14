@@ -33,7 +33,7 @@
           <payment_action>authorize</payment_action>
           <order_status>processing</order_status>
           <active>0</active>
-          <test>1</test>
+          <test>0</test>
           <title>mCASH</title>
           <merchant_id backend_model="adminhtml/system_config_backend_encrypted" />
           <user_id backend_model="adminhtml/system_config_backend_encrypted" />
