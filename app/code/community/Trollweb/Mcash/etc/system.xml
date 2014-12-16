@@ -18,9 +18,9 @@
 <br />
 Kontakt oss helt gratis om du har spørsmål til søknadsskjemaene eller kostnadene rundt løsningen.<br />
 <label>Epost <a href="mailto:support@trollweb.no"><b>support@trollweb.no</b></a></label><br />
-Telefon <b>+47 51215300</b> (0800-1600, man-fre)<br />
+Telefon <b>+47 51215300</b> (0830-1530, man-fre)<br />
 <br />
-<font size=1>Nets NetAxept modulen er utviklet av <a href="http://www.trollweb.no">Trollweb Solutions AS</a> i Norge og er godkjent av <a href="http://mca.sh/">mCASH</a>. Videredistribusjon av noe slag er ikke tillatt uten etter avtale med Trollweb.</font><br />
+<font size=1>mCASH modulen er utviklet av <a href="http://www.trollweb.no">Trollweb Solutions AS</a> i Norge og er godkjent av <a href="http://mca.sh/">mCASH</a>.</font><br />
  <br />
 </div>
 </div>
@@ -46,18 +46,6 @@ Telefon <b>+47 51215300</b> (0800-1600, man-fre)<br />
                             <show_in_store>1</show_in_store>
                             <comment><![CDATA[Tekst som vises på mCASH betalingsvalget i nettbutikken.]]></comment>
                         </title>
-    <!--
-                  <regcode translate="label">
-                      <label>Registreringskode</label>
-                      <frontend_type>text</frontend_type>
-                      <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-                      <sort_order>3</sort_order>
-                      <show_in_default>1</show_in_default>
-                      <show_in_website>1</show_in_website>
-                      <show_in_store>1</show_in_store>
-                      <comment><![CDATA[Din registreringskode fra Trollweb. <a href="http://www.trollweb.no/bbs/getregcode">Klikk her for å generere din registreringskode helt gartis</a>.]]></comment>
-                  </regcode>
-    -->
 
                         <merchant_id translate="label">
                             <label>Merchant ID</label>
