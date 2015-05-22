@@ -61,7 +61,7 @@ class Trollweb_Mcash_Model_Payment_Mcash extends Mage_Payment_Model_Method_Abstr
         $payment->setIsTransactionClosed(false);
 
         if (!$transactionId) {
-            Mage::throwException(Mage::helper('mcash')->__('Communication with mCash failed. Please try again or choose another payment method'));
+            Mage::throwException(Mage::helper('mcash')->__('Communication with mCASH failed. Please try again or choose another payment method'));
         }
 
         $isOk = false;

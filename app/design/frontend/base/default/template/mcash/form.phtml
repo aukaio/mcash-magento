@@ -10,4 +10,5 @@
             <p class="scan-info"><?php echo $this->__("Submit your order and accept the payment with the mCASH app on your phone to complete the order") ?></p>
         </li>
     </ul>
+    <div id="mcash_ask_for_scopes" style="display: none;"><?php echo Mage::helper('mcash')->getConfig('ask_for_scopes')? "yes" : "no" ?></div>
 </fieldset>

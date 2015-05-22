@@ -4,7 +4,7 @@
         <payment>
             <groups>
                 <mcash translate="label" module="mcash">
-                    <label>mCASH, versjon 1.0.0</label>
+                    <label>mCASH, versjon 1.0.1</label>
                     <sort_order>200</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -13,15 +13,11 @@
 <div class="custom-options">
 <div class="box">
 <br />
-<p class="grand-total">Opprett avtale med mCASH<br /><b></b></p>
-
-<br />
-Kontakt oss helt gratis om du har spørsmål til søknadsskjemaene eller kostnadene rundt løsningen.<br />
-<label>Epost <a href="mailto:support@trollweb.no"><b>support@trollweb.no</b></a></label><br />
-Telefon <b>+47 51215300</b> (0830-1530, man-fre)<br />
-<br />
-<font size=1>mCASH modulen er utviklet av <a href="http://www.trollweb.no">Trollweb Solutions AS</a> i Norge og er godkjent av <a href="http://mca.sh/">mCASH</a>.</font><br />
- <br />
+<p class="grand-total">mCASH Payment Gateway<br/><b></b></p>
+Sign up as a merchant at <a href="https://my.mca.sh/mssp/">https://my.mca.sh/mssp/</a></br>
+This mcash-magento extension is developed by <a href="http://www.trollweb.no">Trollweb Solutions AS</a><br/>
+<label>Email <a href="mailto:help@mcash.no"><b>help@mcash.no</b></a></label><br />
+<br/>
 </div>
 </div>
 ]]></comment>
@@ -59,7 +55,7 @@ Telefon <b>+47 51215300</b> (0830-1530, man-fre)<br />
                         </merchant_id>
 
                         <user_id translate="label">
-                            <label>User</label>
+                            <label>Merchant User ID</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
                             <sort_order>12</sort_order>
@@ -160,10 +156,21 @@ Telefon <b>+47 51215300</b> (0830-1530, man-fre)<br />
                             <show_in_store>0</show_in_store>
                         </enable_log>
 
+                        <ask_for_scopes translate="label">
+                          <label>Ask user for scopes</label>
+                          <frontend_type>select</frontend_type>
+                          <source_model>adminhtml/system_config_source_yesno</source_model>
+                          <sort_order>100</sort_order>
+                          <show_in_default>1</show_in_default>
+                          <show_in_website>1</show_in_website>
+                          <show_in_store>1</show_in_store>
+                          <comment><![CDATA[Set this to ask buyer for scopes/permissions]]></comment>
+                        </ask_for_scopes>
+
                         <sort_order translate="label">
                             <label>Sortering av betalingsmetode</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>100</sort_order>
+                            <sort_order>101</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
