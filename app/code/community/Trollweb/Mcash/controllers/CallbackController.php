@@ -69,7 +69,7 @@ class Trollweb_Mcash_CallbackController extends Mage_Core_Controller_Front_Actio
     }
 
     private function buildAbsoluteUrl($relativeUrl) {
-        $baseUrl = Mage::getBaseUrl("link", true);
+        $baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB, true);
         return rtrim($baseUrl, "/") . $relativeUrl;
     }
 }
