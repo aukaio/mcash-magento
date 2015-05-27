@@ -5,18 +5,23 @@ document.observe("dom:loaded", function() {
 
 function loadQRCode() {
     var url = getUrl("qr-image-url")
-
-    new Ajax.Request(url, {
-        method: "GET",
-        onSuccess: function(res) {
-            var data = res.responseJSON;
-            if (data) {
-                $("qr-image").src = data.url;
-                $("qr-image").removeClassName("hide");
-                $("loading-qr").addClassName("hide");
-            }
-        }
-    });
+    function waitForElem() {
+	if ($("qr-image") !== null ){
+	    clearInterval(interval);
+	    new Ajax.Request(url, {
+		method: "GET",
+		onSuccess: function(res) {
+		    var data = res.responseJSON;
+		    if (data) {
+			$("qr-image").src = data.url;
+			$("qr-image").removeClassName("hide");
+			$("loading-qr").addClassName("hide");
+		    }
+		}
+	    });
+	}
+    }
+    interval = setInterval(waitForElem, 2000);
 }
 
 function checkScannedStatus() {
@@ -36,7 +41,10 @@ function checkScannedStatus() {
                     hideQrCode();
                     showIsScanned();
                     clearInterval(intervalId);
-                    requestPermissions();
+		    mcash_ask_for_scopes = document.getElementById("mcash_ask_for_scopes").textContent
+		    if (mcash_ask_for_scopes === 'yes'){
+			requestPermissions();
+		    }
                 }
             }
         });

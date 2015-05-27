@@ -138,14 +138,14 @@ class Trollweb_Mcash_Model_Api_Client
             }
             catch (Exception $e) {
                 $error = array('error' => 'Unknown error');
-                Mage::log('[mCASH] Calling URL '.$this->_url."\n"."No valid response (".$response->getStatus().'): '.$response->getBody(),Zend_Log::ERR);
+                Mage::log('mCASH Calling URL '.$this->_url."\n"."No valid response (".$response->getStatus().'): '.$response->getBody(),Zend_Log::ERR);
             }
             $errorMessage = 'API returned '.$response->getStatus();
             if (isset($error['error'])) {
                 $errorMessage = $error['error'];
             }
             $this->_errorMessage = $errorMessage;
-            Mage::log('[mCASH] '.$errorMessage,Zend_Log::ERR);
+            Mage::log('mCASH '.$errorMessage,Zend_Log::ERR);
             return false;
         }
     }
