@@ -8,13 +8,13 @@ You must have a mCASH merchant account to use this plugin. Sign up here https://
 
 This plugin is not yet distributed with Magento Connect. Do the following steps to install it.
 
-Goto https://github.com/mcash/mcash-magento/tree/master/build/dist and download the file mcash-magento-1.0.1.tgz (download as RAW)
+Goto https://github.com/mcash/mcash-magento/tree/master/build/dist and download the file mcash-magento-1.0.2.tgz (download as RAW)
 
 **From the Magento Connect Manager:**
 
 Log into your Magento Store's Admin Panel and navigate to **System > Magento Connect > Magento Connect Manager**.
 
-Under "Direct master file upload" choose the file mcash-magento-1.0.1.tgz that you downloaded and press upload.
+Under "Direct master file upload" choose the file mcash-magento-1.0.2.tgz that you downloaded and press upload.
 
 ![Magento Connect Manager](https://raw.githubusercontent.com/mcash/mcash-magento/master/docs/magento_connect_manager.png "Magento Connect Manager")
 

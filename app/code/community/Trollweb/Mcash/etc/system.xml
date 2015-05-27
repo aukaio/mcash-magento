@@ -4,7 +4,7 @@
         <payment>
             <groups>
                 <mcash translate="label" module="mcash">
-                    <label>mCASH, versjon 1.0.1</label>
+                    <label>mCASH, versjon 1.0.2</label>
                     <sort_order>200</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>

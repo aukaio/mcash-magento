@@ -7,7 +7,7 @@ date_default_timezone_set('Europe/Oslo');
 /**
  * Various Configuration Settings
  */
-$version    = '1.0.1';
+$version    = '1.0.2';
 $vendorDir  = __DIR__ . '/../vendor';
 $distDir    = __DIR__ . '/../build/dist';
 $tmpDistDir = $distDir . '/tmp'; // Files will be placed here temporarly so we can zip/tar them.
