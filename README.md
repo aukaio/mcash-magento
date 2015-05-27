@@ -8,22 +8,22 @@ You must have a mCASH merchant account to use this plugin. Sign up here https://
 
 This plugin is not yet distributed with Magento Connect. Do the following steps to install it.
 
-Goto https://github.com/mcash/mcash-magento/tree/package/build/dist and download the file mcash-magento-1.0.1.tgz
+Goto https://github.com/mcash/mcash-magento/tree/master/build/dist and download the file mcash-magento-1.0.1.tgz (download as RAW)
 
 **From the Magento Connect Manager:**
 
 Log into your Magento Store's Admin Panel and navigate to **System > Magento Connect > Magento Connect Manager**.
 
-Under "Direct package file upload" choose the file mcash-magento-1.0.1.tgz that you downloaded and press upload.
+Under "Direct master file upload" choose the file mcash-magento-1.0.1.tgz that you downloaded and press upload.
 
-![Magento Connect Manager](https://raw.githubusercontent.com/mcash/mcash-magento/package/docs/magento_connect_manager.png "Magento Connect Manager")
+![Magento Connect Manager](https://raw.githubusercontent.com/mcash/mcash-magento/master/docs/magento_connect_manager.png "Magento Connect Manager")
 
 If you need to reinstall or upgrade to a later version, then uninstall the old installation first.
 
 ## Configuration
 Log into your Magento Store's Admin Panel and navigate to **System > Configuration > Sales > Payment Methods > mCASH **.
 
-![mCASH Configuration example](https://raw.githubusercontent.com/mcash/mcash-magento/package/docs/mcash_config_example.png "mCASH Configuration example")
+![mCASH Configuration example](https://raw.githubusercontent.com/mcash/mcash-magento/master/docs/mcash_config_example.png "mCASH Configuration example")
 
 The configration table needs
 
@@ -52,7 +52,7 @@ This projected is licensed under the terms of the MIT license.
 
 
 ## Developer
-In order to generate the package file under build/dist/ clone git repo and do
+In order to generate the master file under build/dist/ clone git repo and do
 ```
 composer install
 ./script/package
