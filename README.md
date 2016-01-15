@@ -1,5 +1,8 @@
 # mCASH plugin for Magento
 
+## Background
+This plugin has been developed by Trollweb Systems AS (Trollweb.no). It is currently not being maintained.
+
 ## Prerequisites
 You must have a mCASH merchant account to use this plugin. Sign up here https://my.mca.sh/mssp/signup/ .
 
