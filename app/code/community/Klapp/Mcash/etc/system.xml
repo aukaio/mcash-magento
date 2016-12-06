@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <payment>
+            <groups>
+                <mcash translate="label" module="mcash">
+	                <label>mCASH, versjon 1.0.0</label>
+	                <sort_order>200</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+                    <comment><![CDATA[
+					<div class="custom-options">
+					<div class="box">
+					<br />
+					<p class="grand-total">mCASH Payment Gateway<br/><b></b></p>
+					Registrer deg som forhandler på <a href="https://my.mca.sh/mssp/">https://my.mca.sh/mssp/</a></br><a href="http://hjelp.mcash.no">hjelp.mcash.no</a> | <a href="mailto:hjelp@mcash.no">hjelp@mcash.no</a><br />
+					<br /><small>Utviklet av <a href="http://klapp.no">Klapp Media AS</a></small>
+					</div>
+					</div>
+					]]>
+					</comment>
+					<fields>
+						
+						<active translate="label">
+							<label>Aktivert</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_store>0</show_in_store>
+							<show_in_website>1</show_in_website>
+						</active>
+						
+						<title translate="label">
+							<label>Tittel</label>
+							<frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Tittel som vises på mCASH betalingsvalget i nettbutikken.]]></comment>
+						</title>
+						
+						<description translate="label">
+							<label>Beskrivelse</label>
+							<frontend_type>textarea</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Beskrivelse som vises på mCASH betalingsvalget i nettbutikken.]]></comment>							
+						</description>
+						
+                        <merchant_id translate="label">
+                            <label>Merchant ID</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Brukersteds-ID identifiserer ditt brukersted. Denne mottok du når du registrerte en brukerstedskonto.]]></comment>
+                        </merchant_id>
+
+                        <user_id translate="label">
+                            <label>Merchant User ID</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Bruker-ID som er knyttet til brukerstedet.]]></comment>
+                        </user_id>
+                        
+                        <shipping_cost translate="label">
+                            <label>Fastpris på frakt</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Fyll inn en fastpris på frakt ved handel via mCASH Express eller Direct.]]></comment>
+                        </shipping_cost>
+                        
+                        <free_shipping_above translate="label">
+                            <label>Frakt gratis over</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Dersom du fyller inn en verdi høyere enn 0, vil frakt være gratis dersom ordren overstiger beløpet]]></comment>
+                        </free_shipping_above>                                                
+                        
+                        <enable_direct translate="label">
+                            <label>mCASH Direct</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Vis mCASH Direct i butikken]]></comment>
+                        </enable_direct>                        
+
+                        <enable_express translate="label">
+                            <label>mCASH Express</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Vis mCASH Express i butikken]]></comment>
+                        </enable_express>   
+
+						<user_pub_key translate="label">
+                            <label>Public Key</label>
+                            <frontend_type>textarea</frontend_type>
+                            <backend_model>mcash/system_config_source_publickey</backend_model>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Dette er butikkens public key. Den skal limes inn i MSSP for å verifisere brukerstedet.]]></comment>							
+						</user_pub_key>
+
+                        <heading_mcashdemo translate="label">
+                            <label>Demomodus</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </heading_mcashdemo>
+                        
+                        <test translate="label">
+                          <label>Testmodus</label>
+                          <frontend_type>select</frontend_type>
+                          <source_model>adminhtml/system_config_source_yesno</source_model>
+                          <sort_order>19</sort_order>
+                          <show_in_default>1</show_in_default>
+                          <show_in_website>0</show_in_website>
+                          <show_in_store>0</show_in_store>
+                          <comment><![CDATA[Sett denne til ja for å kjøre mot mCASH sitt test system.]]></comment>
+                        </test>
+
+                        <test_priv_key translate="label">
+                            <label>Private Key</label>
+                            <frontend_type>textarea</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Når du bruker mCASH testmiljø må du lime inn den private RSA-nøkkelen som du får fra mCASH testbed.]]></comment>
+                        </test_priv_key>
+                        
+                        <test_token translate="label">
+                            <label>Test token</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Lim inn test token fra mCASH testbed sitt miljø dersom du velger å aktivere testmiljøet.]]></comment>
+                        </test_token>
+
+
+                        <specificcountry translate="label">
+                            <label>Spesifiser hvilke land som kan bruke mCASH</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>42</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Velg utvalgte land som får lov å velge denne betalingsmetoden. Standard er alle land.]]></comment>
+                            <depends><allowspecific>1</allowspecific></depends>
+                        </specificcountry>
+
+                        <enable_log translate="label">
+                            <label>Aktiver logging</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </enable_log>
+
+                        <sort_order translate="label">
+                            <label>Sortering av betalingsmetode</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>101</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Ønsket sortering i Betalingsmetoder-feltet på utsjekkingssiden i nettbutikken. Aktuelt dersom du tilbyr flere betalingsalternativer og ønsker å plassere mCASH betalingsvalget i en angitt rekkefølge.]]></comment>
+                        </sort_order>                        
+                        						
+					</fields>
+                </mcash>
+            </groups>
+        </payment>
+    </sections>
+</config>	            

@@ -1,64 +1,23 @@
 <?xml version="1.0"?>
-
 <layout version="0.1.0">
-  <!-- Load for onepage checkout -->
-  <checkout_onepage_index>
-    <reference name="head">
-      <action method="addItem"><type>skin_js</type><name>mcash/mcash.js</name></action>
-      <action method="addCss"><script>mcash/mcash.css</script></action>
-    </reference>
 
-    <reference name="before_body_end">
-      <block type="mcash/mcash" template="mcash/mcash.phtml" name="mcash_mcash" />
-    </reference>
-  </checkout_onepage_index>
+    <catalog_product_view>
 
+        <reference name="product.info.addtocart">
+	        
+            <block type="core/template" name="mcash" template="mcash/direct.phtml" />
 
-  <!-- Load for onestepcheckout -->
-  <onestepcheckout_index_index>
-    <reference name="head">
-      <action method="addItem"><type>skin_js</type><name>mcash/mcash.js</name></action>
-      <action method="addCss"><script>mcash/mcash.css</script></action>
-    </reference>
-
-    <reference name="before_body_end">
-      <block type="mcash/mcash" template="mcash/mcash.phtml" name="mcash_mcash" />
-    </reference>
-  </onestepcheckout_index_index>
-
-
-  <!-- Load for gomagechekout -->
-  <gomage_checkout_onepage_index>
-    <reference name="head">
-      <action method="addItem"><type>skin_js</type><name>mcash/mcash.js</name></action>
-      <action method="addCss"><script>mcash/mcash.css</script></action>
-    </reference>
-
-    <reference name="before_body_end">
-      <block type="mcash/mcash" template="mcash/mcash.phtml" name="mcash_mcash" />
-    </reference>
-  </gomage_checkout_onepage_index>
-
-  <!-- Load for TCO -->
-  <trollweb_tco_checkout_onestep>
-    <reference name="head">
-      <action method="addItem"><type>skin_js</type><name>mcash/mcash.js</name></action>
-      <action method="addCss"><script>mcash/mcash.css</script></action>
-    </reference>
-
-    <reference name="before_body_end">
-      <block type="mcash/mcash" template="mcash/mcash.phtml" name="mcash_mcash" />
-    </reference>
-  </trollweb_tco_checkout_onestep>
-
-  <trollweb_tco_checkout_onepage>
-    <reference name="head">
-      <action method="addItem"><type>skin_js</type><name>mcash/mcash.js</name></action>
-      <action method="addCss"><script>mcash/mcash.css</script></action>
-    </reference>
-
-    <reference name="before_body_end">
-      <block type="mcash/mcash" template="mcash/mcash.phtml" name="mcash_mcash" />
-    </reference>
-  </trollweb_tco_checkout_onepage>
+        </reference>
+        
+    </catalog_product_view>
+    
+    <checkout_cart_index>
+    	<reference name="checkout.cart.top_methods">
+	    	<block type="core/template" name="mcash" template="mcash/express.phtml" />
+    	</reference>
+    	<reference name="checkout.cart.methods">
+	    	<block type="core/template" name="mcash" template="mcash/express.phtml" />
+    	</reference>
+    </checkout_cart_index>
+    
 </layout>

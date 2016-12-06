@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/* Mcash
+ *
+ * LICENSE AND USAGE INFORMATION
+ *
+ * This projected is licensed under the terms of the MIT license.
+ * 
+ * @category   Klapp
+ * @package    Klapp_Mcash
+ * @copyright  Copyright (c) 2016 Klapp (http://www.klapp.no)
+ * @license    MIT
+ * 
+ */ 
+-->
+
+<config>
+    <modules>
+        <Klapp_Mcash>
+            <active>true</active>
+            <codePool>community</codePool>
+			<depends>
+				<Mage_Payment />
+			</depends>            
+        </Klapp_Mcash>
+    </modules>
+</config>

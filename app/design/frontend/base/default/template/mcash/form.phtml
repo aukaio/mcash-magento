@@ -1,14 +1,7 @@
-<fieldset class="form-list">
-    <img id="mcash-logo" src="<?php echo $this->getLogoUrl() ?>">
-    <?php $_code=$this->getMethodCode() ?>
-    <ul id="payment_form_<?php echo $_code ?>" style="display:none">
-        <div id="loading-qr"><?php echo $this->__("Loading QR code...") ?></div>
-        <li class="mcash-qr <?php echo $this->isScanned() ? "hide" : "" ?>"><img class="hide" id="qr-image" src=""></li>
-        <li class="mcash-qr <?php echo $this->isScanned() ? "hide" : "" ?>"><?php echo $this->__("Scan the mCASH QR code before you submit your order") ?></li>
-        <li id="mcash-qr-scanned" class="<?php echo $this->isScanned() ? "" : "hide" ?>">
-            <p class="scan-success"><?php echo $this->__("QR code is scanned.") ?></p>
-            <p class="scan-info"><?php echo $this->__("Submit your order and accept the payment with the mCASH app on your phone to complete the order") ?></p>
-        </li>
-    </ul>
-    <div id="mcash_ask_for_scopes" style="display: none;"><?php echo Mage::helper('mcash')->getConfig('ask_for_scopes')? "yes" : "no" ?></div>
-</fieldset>
+<div class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+  	<div>
+  		<?php
+	  		echo $this->getMethod()->getConfigData('description');	
+	  	?>
+	</div>
+</div>

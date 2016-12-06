@@ -1,0 +1,7 @@
+<?php
+if(Mage::helper('mcash')->getConfig('enable_direct')){	
+?>
+<br /><button type="button" data-direct="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>mcash/direct/checkout/" title="Kjøp med mCASH" class="button btn-cart" onclick="productAddToCartForm.submit(this, this.getAttribute('data-direct')); return false;"><span><span>Kjøp nå <img src="<?php echo $this->getSkinUrl('mcash/mcashlogo.svg', array('_secure' => true)); ?>" style="max-height:21px; margin-left:5px; display:inline; vertical-align:middle;"/></span></span></button>
+<?php
+}	
+?>

@@ -1,0 +1,7 @@
+<?php
+if(Mage::helper('mcash')->getConfig('enable_express')){	
+?>
+<a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>mcash/express/checkout/" title="Betal med mCASH" class="button btn-cart"<span><span>Kjøp nå <img src="<?php echo $this->getSkinUrl('mcash/mcashlogo.svg', array('_secure' => true)); ?>" style="max-height:21px; margin-left:5px; display:inline; vertical-align:middle;"/></span></span></a>
+<?php
+}	
+?>

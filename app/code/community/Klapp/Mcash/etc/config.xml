@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	
+	<modules>
+		<Klapp_Mcash>
+			<version>1.0.1</version>
+		</Klapp_Mcash>
+	</modules>
+	
+   <resources>
+        <mcash_setup>
+            <setup>
+                <module>mcash</module>
+            </setup>
+        </mcash_setup>
+    </resources>  	
+	
+    <global>
+		<blocks>
+			<mcash>
+				<class>Klapp_Mcash_Block</class>
+			</mcash>
+		</blocks>
+  
+		<models>
+			<mcash>
+				<class>Klapp_Mcash_Model</class>
+			</mcash>
+		</models>
+		
+		<helpers>
+			<mcash>
+				<class>Klapp_Mcash_Helper</class>
+			</mcash>
+		</helpers>
+    </global>
+    
+    <default>
+	    <payment>
+		    <mcash>
+			    <model>mcash/payment_mcash</model>
+			    <allowspecific>0</allowspecific>
+			    <payment_action>order</payment_action>
+			    <order_status>pending_payment</order_status>
+			    <active>1</active>
+			    <test>0</test>
+			    <title>mCASH</title>
+			    <merchant_id/>
+			    <user_id/>
+			    <user_priv_key/>
+			    <user_pub_key/>
+			    <test_priv_key/>
+		    </mcash>
+	    </payment>
+    </default>
+
+    <frontend>
+		<layout>
+			<updates>
+				<klapp_mcash>
+					<file>mcash/mcash.xml</file>
+				</klapp_mcash>
+			</updates>
+		</layout>	    
+	    <routers>
+		    <klapp_mcash>
+			    <use>standard</use>
+			    <args>
+				    <module>Klapp_Mcash</module>
+				    <frontName>mcash</frontName>
+			    </args>
+		    </klapp_mcash>
+	    </routers>
+    </frontend>
+
+	<payment>
+		<rewrite>
+			<method_abstract>Klapp_Mcash_Model_Payment_Method_Abstract</method_abstract>
+		</rewrite>
+	</payment>
+
+	<crontab>
+	        <jobs>
+	            <mcash_reauth>
+	                <schedule><cron_expr>30 3 * * *</cron_expr></schedule>
+	                <run><model>mcash/observer::reauthOrders</model></run>
+	            </mcash_reauth>
+	        </jobs>
+	</crontab>
+	
+</config>
