@@ -1,0 +1,37 @@
+<tr id="row_payment_mcash_regen_keys">
+	<td class="label">
+		<label for="mcash_regen_keys">Regenerer nøkkel</label>
+	</td>
+	<td class="value">
+		<button id="mcash_regen_keys" title="Generer ny nøkkel" type="button" class="scalable save" ><span><span><span>Generer ny nøkkel</span></span></span></button>
+	</td>
+</tr>
+<script>
+	if( typeof(jQueryIWD) == "undefined" ){
+		if( typeof(jQuery) !== "undefined" ){
+			jQueryIWD = jQuery;
+		} else if( typeof($) !== "undefined" ){
+			jQueryIWD = $;
+		}
+	}
+	if( typeof( jQueryIWD ) != "undefined" ){
+		jQueryIWD('#mcash_regen_keys').on('click', function(e){
+			jQueryIWD.ajax({
+				url : '<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/generatekey/generate"); ?>',
+				type : 'GET',
+				success : function(data){
+					data = JSON.parse(data);
+					if( data.pubkey ){
+						jQueryIWD('#mcash_pub_key').html(data.pubkey);
+						alert('Ny nøkkel opprettet');
+					}
+				},
+				error : function(data){
+					alert('Noe gikk galt, vennligst prøv igjen');
+					console.log(data);
+				}
+			});
+		});		
+	}
+
+</script>

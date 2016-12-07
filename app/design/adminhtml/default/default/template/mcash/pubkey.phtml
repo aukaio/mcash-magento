@@ -1,0 +1,9 @@
+<tr id="row_payment_mcash_pub_key">
+	<td class="label">
+		<label for="mcash_pub_key">Public Key</label>
+	</td>
+	<td class="value">
+		<pre id="mcash_pub_key"><?php $key = Mage::helper('core')->decrypt(Mage::helper('mcash')->getConfig('user_pub_key')); if( $key == "" || is_null($key) || $key == false ) { echo "<strong>Klikk på 'Generer ny nøkkel' for å opprette nettbutikkens public key.</strong><p class='note'>Denne må opprettes og limes inn på https://my.mca.sh/mssp/ før du kan ta i bruk betalingsløsningen.</p>"; } else { echo $key; } ?></pre>
+		<p class="note"><span><?php if( $key != "" ) echo "Dette er butikkens public key. Den skal limes inn i MSSP for å verifisere brukerstedet."; ?></span></p>
+	</td>
+</tr>

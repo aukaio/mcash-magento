@@ -53,7 +53,19 @@
 		    </mcash>
 	    </payment>
     </default>
-
+    
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <klapp_keygen>Klapp_Mcash_Adminhtml</klapp_keygen>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>    
+    
     <frontend>
 		<layout>
 			<updates>
@@ -72,7 +84,7 @@
 		    </klapp_mcash>
 	    </routers>
     </frontend>
-
+	
 	<payment>
 		<rewrite>
 			<method_abstract>Klapp_Mcash_Model_Payment_Method_Abstract</method_abstract>

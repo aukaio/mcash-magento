@@ -56,7 +56,7 @@
                             <label>Merchant ID</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-                            <sort_order>10</sort_order>
+                            <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -67,7 +67,7 @@
                             <label>Merchant User ID</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-                            <sort_order>11</sort_order>
+                            <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -78,7 +78,7 @@
                             <label>Fastpris på frakt</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-                            <sort_order>12</sort_order>
+                            <sort_order>11</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -120,14 +120,22 @@
 
 						<user_pub_key translate="label">
                             <label>Public Key</label>
-                            <frontend_type>textarea</frontend_type>
-                            <backend_model>mcash/system_config_source_publickey</backend_model>
-                            <sort_order>16</sort_order>
+                            <frontend_model>mcash/Printkey</frontend_model>
+                            <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <comment><![CDATA[Dette er butikkens public key. Den skal limes inn i MSSP for å verifisere brukerstedet.]]></comment>							
+                            <show_in_store>0</show_in_store>					
 						</user_pub_key>
+
+						<gen_key_pair translate="label">
+                            <label>Generate new key</label>
+                            <frontend_model>mcash/Generatekey</frontend_model>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Klikk kun dersom du ønsker å lage en ny nøkkel. Denne må i så tilfelle oppdateres i MSSP.]]></comment>							
+						</gen_key_pair>
 
                         <heading_mcashdemo translate="label">
                             <label>Demomodus</label>
