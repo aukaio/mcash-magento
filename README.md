@@ -1,7 +1,7 @@
 # mCASH plugin for Magento
 
 ## Background
-This plugin has been developed by Klapp Media AS 
+This plugin has been developed by Klapp Media AS as a further development of the original plugin developed by Trollweb Solutions AS
 
 ## Prerequisites
 You must have a mCASH merchant account to use this plugin. Sign up here https://my.mca.sh/mssp/signup/ .
