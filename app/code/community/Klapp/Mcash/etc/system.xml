@@ -7,8 +7,8 @@
 	                <label>mCASH, versjon 1.0.0</label>
 	                <sort_order>200</sort_order>
 					<show_in_default>1</show_in_default>
-					<show_in_website>0</show_in_website>
-					<show_in_store>0</show_in_store>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
                     <comment><![CDATA[
 					<div class="custom-options">
 					<div class="box">
@@ -38,7 +38,7 @@
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <comment><![CDATA[Tittel som vises på mCASH betalingsvalget i nettbutikken.]]></comment>
 						</title>
 						
@@ -81,7 +81,7 @@
                             <sort_order>11</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <comment><![CDATA[Fyll inn en fastpris på frakt ved handel via mCASH Express eller Direct.]]></comment>
                         </shipping_cost>
                         
@@ -92,7 +92,7 @@
                             <sort_order>13</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <comment><![CDATA[Dersom du fyller inn en verdi høyere enn 0, vil frakt være gratis dersom ordren overstiger beløpet]]></comment>
                         </free_shipping_above>                                                
                         
@@ -103,7 +103,7 @@
                             <sort_order>14</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <comment><![CDATA[Vis mCASH Direct i butikken]]></comment>
                         </enable_direct>                        
 
@@ -114,7 +114,7 @@
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <comment><![CDATA[Vis mCASH Express i butikken]]></comment>
                         </enable_express>   
 

@@ -7,31 +7,26 @@
 	</td>
 </tr>
 <script>
-	if( typeof(jQueryIWD) == "undefined" ){
-		if( typeof(jQuery) !== "undefined" ){
-			jQueryIWD = jQuery;
-		} else if( typeof($) !== "undefined" ){
-			jQueryIWD = $;
-		}
-	}
-	if( typeof( jQueryIWD ) != "undefined" ){
-		jQueryIWD('#mcash_regen_keys').on('click', function(e){
-			jQueryIWD.ajax({
-				url : '<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/generatekey/generate"); ?>',
-				type : 'GET',
-				success : function(data){
-					data = JSON.parse(data);
-					if( data.pubkey ){
-						jQueryIWD('#mcash_pub_key').html(data.pubkey);
-						alert('Ny nøkkel opprettet');
+
+	document.getElementById('mcash_regen_keys').onclick = function(e){
+		new Ajax.Request(
+			'<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/generatekey/generate"); ?>', 
+			{
+				onSuccess: function(transport){ 
+					var response = transport.responseText.evalJSON(); 
+					if( response.pubkey ){
+						document.getElementById('mcash_pub_key').innerHTML = response.pubkey;
+						alert('Ny nøkkel opprettet');	
+					} else {
+						alert('Noe gikk galt, vennligst prøv igjen');
 					}
 				},
-				error : function(data){
+				onError : function(err){
 					alert('Noe gikk galt, vennligst prøv igjen');
-					console.log(data);
+					console.log(err);					
 				}
-			});
-		});		
+			}
+		);		
 	}
 
 </script>
