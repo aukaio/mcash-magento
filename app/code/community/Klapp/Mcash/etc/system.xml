@@ -132,8 +132,8 @@
                             <frontend_model>mcash/Generatekey</frontend_model>
                             <sort_order>9</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
                             <comment><![CDATA[Klikk kun dersom du ønsker å lage en ny nøkkel. Denne må i så tilfelle oppdateres i MSSP.]]></comment>							
 						</gen_key_pair>
 
