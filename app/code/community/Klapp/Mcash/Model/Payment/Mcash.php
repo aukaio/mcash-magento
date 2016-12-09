@@ -102,11 +102,10 @@ class Klapp_Mcash_Model_Payment_Mcash extends Mage_Payment_Model_Method_Abstract
     
     private function capturePartial($transactionId, $amount, $captureId) {
         $api = Mage::getModel('mcash/api');
-
     }
     
     public function refund(Varien_Object $payment, $amount){
-	     Mage::log('Refunding order - Refunding Payment', null, 'mcash.log');
+	    Mage::log('Refunding order - Refunding Payment', null, 'mcash.log');
 	    $api = Mage::getModel('mcash/api');
 	    $helper = Mage::helper("mcash");
 	    $authorization = $payment->getAuthorizationTransaction();
@@ -118,11 +117,9 @@ class Klapp_Mcash_Model_Payment_Mcash extends Mage_Payment_Model_Method_Abstract
 	    }
 	    
 	    return $this;
-	    
     }
     
     public function cancel(Varien_Object $payment){
-	    
 	    Mage::log('Cancelling order - Releasing Payment', null, 'mcash.log');
 	    
 	    $api = Mage::getModel('mcash/api');

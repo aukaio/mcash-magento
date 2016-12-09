@@ -16,6 +16,10 @@ class Klapp_Mcash_Helper_Data extends Mage_Core_Helper_Abstract {
    	public function getLogo(){
 	   return $this->getSkinUrl('mcash/mcashlogo.svg', array('_secure' => true));
    	} 
+  
+   	public function getPaymentLogo(){
+	   return $this->getSkinUrl('mcash/logo.png', array('_secure' => true));
+   	}   
     
     public function isPartial($object) {
         $origList = array();

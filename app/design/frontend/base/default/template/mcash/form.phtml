@@ -1,7 +1,10 @@
-<div class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
-  	<div>
+<fieldset class="form-list">
+   <img id="mcash_logo" src="<?php echo $this->getSkinUrl('mcash/logo.png', array('_secure' => true)); ?>" height="32"/>
+   <ul id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+	    <li>
   		<?php
 	  		echo $this->getMethod()->getConfigData('description');	
-	  	?>
-	</div>
-</div>
+	  	?>	    
+	    </li>
+    </ul>
+</fieldset>
