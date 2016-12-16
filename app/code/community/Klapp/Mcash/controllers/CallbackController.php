@@ -222,7 +222,8 @@ class Klapp_Mcash_CallbackController extends Mage_Core_Controller_Front_Action {
 			if( $outcome->status == "fail" ){
 				Mage::log('outcome fail', null, 'mcash.log');
 				$order = Mage::getModel('sales/order')->load($order_id);
-		        $order->setState(Mage_Sales_Model_Order::STATE_CANCELED, true);
+		        //$order->setState(Mage_Sales_Model_Order::STATE_CANCELED, true);
+		        $order->cancel();
 		        $order->save();
 			}
 			
