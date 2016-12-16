@@ -193,10 +193,13 @@ class Klapp_Mcash_CallbackController extends Mage_Core_Controller_Front_Action {
 					
 					// Set Sales Order Shipping Address
 					$order->getShippingAddress()->addData($address);
-					
+					  
 					$order->save();
 					
 				}
+
+				// Send Order Email
+				$order->sendNewOrderEmail();
 				
 				Mage::log('Updating transaction information', null, 'mcash.log');
 	
