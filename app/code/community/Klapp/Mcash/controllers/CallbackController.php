@@ -17,8 +17,6 @@ class Klapp_Mcash_CallbackController extends Mage_Core_Controller_Front_Action {
 	   	// Get the Transaction ID from the uri
 	   	$parts = explode("/", $payload->meta->uri );
         $mcash_tid = $parts[count($parts)-3];
-
-		
 				
 		// Malformed request. Missing ID
 		if ( !$payload->meta->id ) {
@@ -70,8 +68,13 @@ class Klapp_Mcash_CallbackController extends Mage_Core_Controller_Front_Action {
 			$order_id = $outcome->pos_tid;
 			Mage::log( 'ORDER ID: ' . $order_id, null, 'mcash.log' );
 
+			// Check if this is a authorization renewal. No need to run the entire job below if its only a renewal of an existing payment at the payment gateway.
+			if( $payload->meta->event && $payload->meta->event == "payment_authorization_renewed" ){
+				Mage::log('Payment for TID ' . $mcash_tid . ' for order ' . $order_id . ' have been renewed');
+			}
+
 			// The payment request have been authenticated with status "auth". The money still havent been captured
-			if( $outcome->status == "auth" ){
+			else if( $outcome->status == "auth" ){
 				
 				Mage::log('Outcome is Auth', null, 'mcash.log');
 				
